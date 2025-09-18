@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Kuliah TRPL-1A</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="logo-removebg-preview.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+    <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+        
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Jadwal Kuliah</h1>
+            <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Kelas TRPL-1A (Semester Ganjil)</p>
+        </header>
+
+        <main id="schedule-container" class="space-y-6">
+            <!-- Jadwal akan ditampilkan di sini oleh JavaScript -->
+        </main>
+
+        <footer class="text-center mt-12 text-sm text-gray-500">
+            <p>Dibuat untuk memudahkan manajemen jadwal kuliah.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Data Dosen
+        const dosen = {
+            'WND': 'Winda Syafitri',
+            'AFL': 'Arif Fadillah Lubis',
+            'GES': 'Gerhard Eliasman Sipayung',
+            'AHY': 'Achmad Yani',
+            'STI': 'Santi Prayudani',
+            'SRI': 'Sri Novida Sari',
+            'YKM': 'Yessi Kurnia Manik',
+            'LAM': 'Lamtiur Sinambela'
+        };
+
+        // Data Jadwal Kuliah
+        const jadwal = [
+            // Senin
+            { hari: 'Senin', waktuMulai: '13:05', waktuSelesai: '16:25', mataKuliah: 'Bahasa Inggris Conversation I', kodeDosen: 'WND', ruang: 'N-205' },
+            { hari: 'Senin', waktuMulai: '16:40', waktuSelesai: '18:20', mataKuliah: 'Agama Islam', kodeDosen: 'AFL', ruang: 'N-205' },
+            // Selasa
+            { hari: 'Selasa', waktuMulai: '13:05', waktuSelesai: '14:45', mataKuliah: 'Sistem Operasi', kodeDosen: 'AHY', ruang: 'N-205' },
+            { hari: 'Selasa', waktuMulai: '14:45', waktuSelesai: '18:20', mataKuliah: 'Praktik Sistem Operasi', kodeDosen: 'AHY', ruang: 'N-205' },
+            // Rabu
+            { hari: 'Rabu', waktuMulai: '13:05', waktuSelesai: '14:45', mataKuliah: 'Logika dan Algoritma Pemrograman', kodeDosen: 'STI', ruang: 'N-205' },
+            { hari: 'Rabu', waktuMulai: '14:45', waktuSelesai: '18:20', mataKuliah: 'Praktik Logika dan Algoritma Pemrograman', kodeDosen: 'STI', ruang: 'N-205' },
+            // Kamis
+            { hari: 'Kamis', waktuMulai: '13:05', waktuSelesai: '14:45', mataKuliah: 'Pengantar Teknologi Informasi', kodeDosen: 'SRI', ruang: 'N-205' },
+            { hari: 'Kamis', waktuMulai: '14:45', waktuSelesai: '18:20', mataKuliah: 'Praktik Pengantar Teknologi Informasi', kodeDosen: 'SRI', ruang: 'N-205' },
+            // Jumat
+            { hari: 'Jumat', waktuMulai: '11:50', waktuSelesai: '13:50', mataKuliah: 'Agama Kristen', kodeDosen: 'GES', ruang: 'N-205' },
+            { hari: 'Jumat', waktuMulai: '13:50', waktuSelesai: '15:30', mataKuliah: 'Kewarganegaraan', kodeDosen: 'YKM', ruang: 'N-205' },
+            { hari: 'Jumat', waktuMulai: '15:30', waktuSelesai: '17:25', mataKuliah: 'Matematika Diskrit', kodeDosen: 'LAM', ruang: 'N-205' }
+        ];
+
+        // Fungsi untuk membuat link Google Calendar
+        function createGoogleCalendarLink(event) {
+            // Mengatur tanggal akhir semester (sekitar 4 bulan dari sekarang)
+            const semesterEndDate = new Date();
+            semesterEndDate.setMonth(semesterEndDate.getMonth() + 4);
+            const untilDate = semesterEndDate.toISOString().split('T')[0].replace(/-/g, '');
+
+            // Mapping nama hari ke nomor hari (0=Minggu, 1=Senin, ...)
+            const dayMapping = { 'Minggu': 0, 'Senin': 1, 'Selasa': 2, 'Rabu': 3, 'Kamis': 4, 'Jumat': 5, 'Sabtu': 6 };
+            const targetDay = dayMapping[event.hari];
+
+            // Cari tanggal pertama untuk mata kuliah ini
+            const firstDate = new Date();
+            firstDate.setDate(firstDate.getDate() + (targetDay + 7 - firstDate.getDay()) % 7);
+            
+            const [startHour, startMinute] = event.waktuMulai.split(':');
+            const [endHour, endMinute] = event.waktuSelesai.split(':');
+
+            const startDate = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate(), startHour, startMinute);
+            const endDate = new Date(firstDate.getFullYear(), firstDate.getMonth(), firstDate.getDate(), endHour, endMinute);
+            
+            // Format tanggal ke format UTC yang dibutuhkan Google Calendar (YYYYMMDDTHHMMSSZ)
+            const toUTCFormat = (date) => {
+                return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+            };
+            
+            const startDateUTC = toUTCFormat(new Date(startDate.getTime() - (7 * 60 * 60 * 1000))); // WIB to UTC
+            const endDateUTC = toUTCFormat(new Date(endDate.getTime() - (7 * 60 * 60 * 1000))); // WIB to UTC
+
+            const baseUrl = 'https://www.google.com/calendar/render?action=TEMPLATE';
+            const params = new URLSearchParams({
+                'text': event.mataKuliah,
+                'dates': `${startDateUTC}/${endDateUTC}`,
+                'details': `Dosen: ${dosen[event.kodeDosen]}\nRuang: ${event.ruang}`,
+                'location': `Ruang ${event.ruang}`,
+                'recur': `RRULE:FREQ=WEEKLY;UNTIL=${untilDate}T170000Z`
+            });
+
+            return `${baseUrl}&${params.toString()}`;
+        }
+        
+        // Menampilkan jadwal di halaman
+        const container = document.getElementById('schedule-container');
+        const groupedSchedule = jadwal.reduce((acc, curr) => {
+            (acc[curr.hari] = acc[curr.hari] || []).push(curr);
+            return acc;
+        }, {});
+
+        // Urutan hari yang benar
+        const dayOrder = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu', 'Minggu'];
+        const sortedDays = Object.keys(groupedSchedule).sort((a, b) => dayOrder.indexOf(a) - dayOrder.indexOf(b));
+
+        sortedDays.forEach(hari => {
+            const dayCard = document.createElement('div');
+            dayCard.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden';
+            
+            const dayHeader = document.createElement('div');
+            dayHeader.className = 'bg-indigo-50 dark:bg-gray-700 p-4 border-b border-gray-200 dark:border-gray-600';
+            dayHeader.innerHTML = `<h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">${hari}</h2>`;
+            dayCard.appendChild(dayHeader);
+
+            const scheduleList = document.createElement('ul');
+            scheduleList.className = 'divide-y divide-gray-200 dark:divide-gray-700';
+            
+            groupedSchedule[hari].forEach(item => {
+                const link = createGoogleCalendarLink(item);
+                const listItem = document.createElement('li');
+                listItem.className = 'p-4 flex flex-col md:flex-row justify-between items-start md:items-center';
+                
+                listItem.innerHTML = `
+                    <div class="flex-grow mb-4 md:mb-0">
+                        <p class="font-bold text-lg">${item.mataKuliah}</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">
+                            <span class="font-semibold">${item.waktuMulai} - ${item.waktuSelesai}</span> | 
+                            ${dosen[item.kodeDosen]} | 
+                            Ruang ${item.ruang}
+                        </p>
+                    </div>
+                    <a href="${link}" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 text-center">
+                        + Google Calendar
+                    </a>
+                `;
+                scheduleList.appendChild(listItem);
+            });
+            
+            dayCard.appendChild(scheduleList);
+            container.appendChild(dayCard);
+        });
+    </script>
+</body>
+</html>
