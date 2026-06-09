@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jadwal Ujian & Ruangan — TRPL-2A</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="shortcut icon" href="logo-removebg-preview.png" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+        html { scroll-padding-top: 64px; }
+    </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+
+    <!-- ====== NAVBAR ====== -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700">
+        <div class="max-w-4xl mx-auto px-4">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2A</div>
+                    <div>
+                        <p class="font-bold text-indigo-700 dark:text-indigo-400 text-sm leading-none">TRPL-2A</p>
+                        <p class="text-xs text-gray-500 leading-none mt-0.5">Semester Genap 2025/2026</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav Links -->
+                <div class="hidden md:flex items-center gap-1">
+                    <a href="index.html#jadwal-kuliah" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        Jadwal Kuliah
+                    </a>
+                    <a href="#jadwal-ujian" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        Jadwal Ujian
+                    </a>
+                    <a href="#pembagian-ruangan" class="nav-link px-4 py-2 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+                        Pembagian Ruangan
+                    </a>
+                </div>
+
+                <!-- Hamburger Button (mobile) -->
+                <button id="hamburger-btn" class="md:hidden p-2 rounded-lg text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors" aria-label="Toggle menu">
+                    <svg id="icon-open" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <svg id="icon-close" class="w-5 h-5 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800">
+            <div class="max-w-4xl mx-auto px-4 py-2 space-y-1">
+                <a href="index.html#jadwal-kuliah" class="mobile-link block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 transition-colors">
+                    📅 Jadwal Kuliah
+                </a>
+                <a href="#jadwal-ujian" class="mobile-link block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 transition-colors">
+                    📝 Jadwal Ujian
+                </a>
+                <a href="#pembagian-ruangan" class="mobile-link block px-4 py-3 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-indigo-50 dark:hover:bg-gray-700 hover:text-indigo-600 transition-colors">
+                    🏫 Pembagian Ruangan
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ====== MAIN CONTENT ====== -->
+    <div class="pt-16">
+
+        <!-- ===== SECTION 1: JADWAL UJIAN ===== -->
+        <section id="jadwal-ujian" class="bg-gray-50 dark:bg-gray-950">
+            <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+                <header class="text-center mb-6 pt-2">
+                    <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Jadwal Ujian</h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Kelas TRPL-2A · TA. 2025/2026</p>
+                </header>
+
+                <!-- Tabs -->
+                <div class="flex gap-0 mb-6 border-b border-gray-200 dark:border-gray-700">
+                    <button id="tab-uas"
+                        class="px-6 py-2.5 text-sm font-semibold border-b-2 border-indigo-600 text-indigo-600 dark:text-indigo-400 -mb-px transition-colors">
+                        UAS
+                    </button>
+                    <button id="tab-uts"
+                        class="px-6 py-2.5 text-sm font-medium border-b-2 border-transparent text-gray-500 dark:text-gray-400 -mb-px hover:text-gray-700 transition-colors">
+                        UTS
+                    </button>
+                </div>
+
+                <!-- UAS Content -->
+                <div id="pane-uas">
+                    <div id="uas-container" class="space-y-6"></div>
+                </div>
+
+                <!-- UTS Content -->
+                <div id="pane-uts" class="hidden">
+                    <div id="uts-container" class="space-y-6"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== SECTION 2: PEMBAGIAN RUANGAN ===== -->
+        <section id="pembagian-ruangan">
+            <div class="container mx-auto p-4 md:p-8 max-w-4xl">
+                <header class="text-center mb-6 pt-2">
+                    <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Pembagian Ruangan</h1>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Peserta Ujian Kelas TRPL-2A</p>
+                </header>
+
+                <!-- Search -->
+                <div class="mb-5 relative">
+                    <span class="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </span>
+                    <input type="text" id="search-input"
+                        placeholder="Cari nama atau NIM..."
+                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                </div>
+
+                <div id="ruangan-container" class="space-y-6"></div>
+            </div>
+        </section>
+
+        <footer class="text-center py-8 text-sm text-gray-400 border-t border-gray-200 dark:border-gray-700">
+            <p>Portal Akademik Kelas TRPL-2A · Politeknik Negeri Medan</p>
+        </footer>
+    </div>
+
+
+    <script>
+    // ================================================================
+    // DATA — Jadwal UAS
+    // Kosongkan isi array [] untuk menampilkan pesan "belum tersedia"
+    // ================================================================
+    const jadwalUAS = [
+        {
+            hari: 'Selasa', tanggal: '09 Juni 2026', dateStr: '2026-06-09',
+            ujian: [
+                {
+                    waktu: '13.00 – 14.10', mataKuliah: 'Percakapan Bahasa Inggris II',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+                    ]
+                },
+                {
+                    waktu: '14.20 – 15.30', mataKuliah: 'Aljabar Linear',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+                    ]
+                },
+                {
+                    waktu: '15.40 – 16.50', mataKuliah: 'Pancasila',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Yuyun Yusnida Lase, S.Kom., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+                    ]
+                }
+            ]
+        },
+        {
+            hari: 'Rabu', tanggal: '10 Juni 2026', dateStr: '2026-06-10',
+            ujian: [
+                {
+                    waktu: '13.00 – 14.10', mataKuliah: 'Etika dan Budaya Sumatera Utara',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
+                    ]
+                },
+                {
+                    waktu: '14.20 – 15.30', mataKuliah: 'Bahasa Indonesia',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
+                    ]
+                },
+                {
+                    waktu: '15.40 – 16.50', mataKuliah: 'Design Web',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Devanta Abraham Tarigan, S.Kom., M.Kom' }
+                    ]
+                }
+            ]
+        },
+        {
+            hari: 'Kamis', tanggal: '11 Juni 2026', dateStr: '2026-06-11',
+            ujian: [
+                {
+                    waktu: '13.00 – 14.10', mataKuliah: 'Struktur Data',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+                    ]
+                },
+                {
+                    waktu: '14.20 – 15.30', mataKuliah: 'Praktik Struktur Data',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+                    ]
+                },
+                {
+                    waktu: '15.40 – 16.50', mataKuliah: 'Pemrograman Berorientasi Objek I',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+                    ]
+                }
+            ]
+        },
+        {
+            hari: 'Jumat', tanggal: '12 Juni 2026', dateStr: '2026-06-12',
+            ujian: [
+                {
+                    waktu: '14.20 – 15.30', mataKuliah: 'Praktik Pemrograman Berorientasi Objek I',
+                    ruangan: [
+                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Santi Prayudani, S.Kom., M.Kom' },
+                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Virdyra Tasril, S.Kom., M.Kom' }
+                    ]
+                }
+            ]
+        }
+    ];
+
+    // ================================================================
+    // DATA — Jadwal UTS
+    // Kosongkan isi array [] untuk menampilkan pesan "belum tersedia"
+    // ================================================================
+    const jadwalUTS = [
+        // Contoh format saat jadwal sudah keluar:
+        // {
+        //     hari: 'Senin', tanggal: '12 Oktober 2026', dateStr: '2026-10-12',
+        //     ujian: [
+        //         {
+        //             waktu: '13.00 – 14.10', mataKuliah: 'Nama Mata Kuliah',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-XXX', pengawas: 'Nama Pengawas' },
+        //                 { label: 'Ruangan 2', ruang: 'N-XXX', pengawas: 'Nama Pengawas' }
+        //             ]
+        //         }
+        //     ]
+        // },
+    ];
+
+    // ================================================================
+    // DATA — Pembagian Ruangan
+    // ================================================================
+    const pembagianRuangan = [
+        {
+            label: 'Ruangan 1', ruang: 'N-109',
+            siswa: [
+                { no:  1, nama: 'CHELSEA WINANDA RAMBE',      nim: '2505181101' },
+                { no:  2, nama: 'DENNIS HALOMOAN AMBARITA',   nim: '2505181081' },
+                { no:  3, nama: 'ECHA ANDINI',                nim: '2505181011' },
+                { no:  4, nama: 'FADHILAH AS SYIFA',          nim: '2505181036' },
+                { no:  5, nama: 'FADILATUL HUSNAH',           nim: '2505181016' },
+                { no:  6, nama: 'FALAH DYAN ADIWITYA',        nim: '2505181116' },
+                { no:  7, nama: 'FIRSYA AMANDA PUTRI',        nim: '2505181046' },
+                { no:  8, nama: 'GHINA SALSABILA',            nim: '2505181061' },
+                { no:  9, nama: 'GLEN YOSE AWALINTA TARIGAN', nim: '2505181111' },
+                { no: 10, nama: 'JEREMIA MORALES SILALAHI',   nim: '2505181096' },
+                { no: 11, nama: 'JINDA LASMA PAKPAHAN',       nim: '2505181031' },
+                { no: 12, nama: 'M FERLY ALZAJIRAH',          nim: '2505181131' },
+                { no: 13, nama: 'M IHSAN ALI',                nim: '2505181106' },
+                { no: 14, nama: 'M. ARYA MAHMUDA',            nim: '2505181026' }
+            ]
+        },
+        {
+            label: 'Ruangan 2', ruang: 'N-309',
+            siswa: [
+                { no:  1, nama: 'MUHAMMAD FARREL RHOFIQI',        nim: '2505181071' },
+                { no:  2, nama: 'MUHAMMAD FATHAN IHSAN',          nim: '2505181086' },
+                { no:  3, nama: 'MUHAMMAD RIAN RANANDA',          nim: '2505181121' },
+                { no:  4, nama: 'MUHAMMAD WILDAN NURDANI',        nim: '2505181056' },
+                { no:  5, nama: 'NAJUA AMELIA PUTRI',             nim: '2505181001' },
+                { no:  6, nama: 'NASYWA ARFAH',                   nim: '2505181021' },
+                { no:  7, nama: 'OWEN LOIS WARUWU',               nim: '2505181006' },
+                { no:  8, nama: 'RAFQAH THALITA HASYIM NASUTION', nim: '2505181041' },
+                { no:  9, nama: 'RAHEL JULIANTI BR SIAGIAN',      nim: '2505181091' },
+                { no: 10, nama: 'SAMUEL CHRISTIAN LUMBANTOBING',  nim: '2505181066' },
+                { no: 11, nama: 'SYAMIL IKHWAN FADLI',            nim: '2505181126' },
+                { no: 12, nama: 'VINCENT ROBIN CHRISTAN ZEBUA',   nim: '2505181051' },
+                { no: 13, nama: 'ZALFA NAZIFAH PURBA',            nim: '2505181076' }
+            ]
+        }
+    ];
+
+
+    // ================================================================
+    // NAVBAR — Hamburger toggle
+    // ================================================================
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const mobileMenu   = document.getElementById('mobile-menu');
+    const iconOpen     = document.getElementById('icon-open');
+    const iconClose    = document.getElementById('icon-close');
+
+    hamburgerBtn.addEventListener('click', () => {
+        const isHidden = mobileMenu.classList.toggle('hidden');
+        iconOpen.classList.toggle('hidden', !isHidden);
+        iconClose.classList.toggle('hidden', isHidden);
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+            mobileMenu.classList.add('hidden');
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+        });
+    });
+
+
+    // ================================================================
+    // TABS — UAS / UTS
+    // ================================================================
+    const tabUAS  = document.getElementById('tab-uas');
+    const tabUTS  = document.getElementById('tab-uts');
+    const paneUAS = document.getElementById('pane-uas');
+    const paneUTS = document.getElementById('pane-uts');
+
+    function activateTab(active, inactive, showPane, hidePane) {
+        active.classList.add('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400', 'font-semibold');
+        active.classList.remove('border-transparent', 'text-gray-500', 'font-medium');
+        inactive.classList.remove('border-indigo-600', 'text-indigo-600', 'dark:text-indigo-400', 'font-semibold');
+        inactive.classList.add('border-transparent', 'text-gray-500', 'font-medium');
+        showPane.classList.remove('hidden');
+        hidePane.classList.add('hidden');
+    }
+
+    tabUAS.addEventListener('click', () => activateTab(tabUAS, tabUTS, paneUAS, paneUTS));
+    tabUTS.addEventListener('click', () => activateTab(tabUTS, tabUAS, paneUTS, paneUAS));
+
+
+    // ================================================================
+    // HELPER — render jadwal (dipakai UAS & UTS)
+    // Jika data kosong [], otomatis tampil pesan "belum tersedia"
+    // ================================================================
+    const today    = new Date();
+    const todayStr = `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2,'0')}-${String(today.getDate()).padStart(2,'0')}`;
+
+    function renderJadwal(containerId, data, label) {
+        const container = document.getElementById(containerId);
+
+        // Array kosong → tampilkan pesan belum tersedia
+        if (data.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-20">
+                    <div class="text-6xl mb-4">📋</div>
+                    <p class="text-gray-500 dark:text-gray-400 font-medium">Data Jadwal ${label} belum tersedia.</p>
+                    <p class="text-sm text-gray-400 dark:text-gray-500 mt-1">Akan diperbarui saat jadwal resmi tersedia.</p>
+                </div>
+            `;
+            return;
+        }
+
+        // Array berisi data → render kartu jadwal
+        data.forEach(day => {
+            const isToday = day.dateStr === todayStr;
+            const isPast  = day.dateStr < todayStr;
+
+            const cardBorder  = isToday ? 'ring-2 ring-orange-400' : '';
+            const headerBg    = isToday ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-indigo-50 dark:bg-gray-700';
+            const headerColor = isToday ? 'text-orange-700 dark:text-orange-300' : 'text-indigo-700 dark:text-indigo-300';
+            const cardOpacity = isPast  ? 'opacity-60' : '';
+            const todayBadge  = isToday
+                ? '<span class="ml-2 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full align-middle">HARI INI</span>'
+                : (isPast ? '<span class="ml-2 px-2 py-0.5 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full align-middle">Selesai</span>' : '');
+
+            const card = document.createElement('div');
+            card.className = `bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden ${cardBorder} ${cardOpacity}`;
+
+            card.innerHTML = `
+                <div class="${headerBg} p-4 border-b border-gray-200 dark:border-gray-600">
+                    <h2 class="text-xl font-bold ${headerColor}">
+                        ${day.hari}, ${day.tanggal}${todayBadge}
+                    </h2>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">${day.ujian.length} mata kuliah</p>
+                </div>
+                <div class="divide-y divide-gray-200 dark:divide-gray-700">
+                    ${day.ujian.map(u => `
+                        <div class="p-4 md:p-5">
+                            <p class="font-bold text-base mb-0.5">${u.mataKuliah}</p>
+                            <p class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-3">${u.waktu} WIB</p>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                ${u.ruangan.map(r => `
+                                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
+                                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">${r.label}</p>
+                                        <p class="text-2xl font-black text-indigo-700 dark:text-indigo-300 leading-none">Ruang ${r.ruang}</p>
+                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1.5">Pengawas: ${r.pengawas}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            container.appendChild(card);
+        });
+    }
+
+    // Render UAS dan UTS — cukup ubah data di array atas, tidak perlu menyentuh baris ini
+    renderJadwal('uas-container', jadwalUAS, 'UAS');
+    renderJadwal('uts-container', jadwalUTS, 'UTS');
+
+
+    // ================================================================
+    // PEMBAGIAN RUANGAN — render + search
+    // ================================================================
+    const ruanganContainer = document.getElementById('ruangan-container');
+    const searchInput      = document.getElementById('search-input');
+
+    function renderRuangan(query = '') {
+        ruanganContainer.innerHTML = '';
+        const q = query.toLowerCase().trim();
+        let totalFound = 0;
+
+        pembagianRuangan.forEach(group => {
+            const matched = q
+                ? group.siswa.filter(s => s.nama.toLowerCase().includes(q) || s.nim.includes(q))
+                : group.siswa;
+
+            if (q && matched.length === 0) return;
+            totalFound += matched.length;
+
+            const card = document.createElement('div');
+            card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden';
+
+            card.innerHTML = `
+                <div class="bg-indigo-50 dark:bg-gray-700 p-4 border-b border-gray-200 dark:border-gray-600 flex items-center justify-between">
+                    <div>
+                        <h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">
+                            ${group.label} — Ruang ${group.ruang}
+                        </h2>
+                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                            ${q ? `${matched.length} dari ${group.siswa.length}` : group.siswa.length} mahasiswa TRPL-2A
+                        </p>
+                    </div>
+                    <span class="text-3xl font-black text-indigo-100 dark:text-indigo-900 select-none">${group.ruang}</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-50 dark:bg-gray-700/40 text-left text-xs uppercase tracking-wide">
+                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-12">No.</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Nama</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">NIM</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            ${matched.map(s => {
+                                const hl = q ? 'bg-yellow-50 dark:bg-yellow-900/10' : '';
+                                return `
+                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition ${hl}">
+                                        <td class="px-4 py-3 text-gray-400 font-mono text-xs">${s.no}</td>
+                                        <td class="px-4 py-3 font-medium">${s.nama}</td>
+                                        <td class="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs">${s.nim}</td>
+                                    </tr>
+                                `;
+                            }).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+            ruanganContainer.appendChild(card);
+        });
+
+        if (q && totalFound === 0) {
+            ruanganContainer.innerHTML = `
+                <div class="text-center py-16 bg-white dark:bg-gray-800 rounded-xl shadow-md">
+                    <div class="text-5xl mb-3">🔍</div>
+                    <p class="text-gray-600 dark:text-gray-300 font-medium">Tidak ditemukan hasil untuk "<strong>${query}</strong>"</p>
+                    <p class="text-sm text-gray-400 mt-1">Pastikan nama atau NIM sudah benar.</p>
+                </div>
+            `;
+        }
+    }
+
+    renderRuangan();
+    searchInput.addEventListener('input', e => renderRuangan(e.target.value));
+
+    </script>
+</body>
+</html>
