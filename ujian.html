@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Jadwal Ujian & Ruangan — TRPL-2A</title>
+    <title>Jadwal Ujian & Ruangan — TRPL-3A</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="shortcut icon" href="logo-removebg-preview.png" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -22,9 +22,9 @@
             <div class="flex items-center justify-between h-16">
                 <!-- Logo -->
                 <div class="flex items-center gap-2.5">
-                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">2A</div>
+                    <div class="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white font-bold text-sm flex-shrink-0">3A</div>
                     <div>
-                        <p class="font-bold text-indigo-700 dark:text-indigo-400 text-sm leading-none">TRPL-2A</p>
+                        <p class="font-bold text-indigo-700 dark:text-indigo-400 text-sm leading-none">TRPL-3A</p>
                         <p class="text-xs text-gray-500 leading-none mt-0.5">Semester Genap 2025/2026</p>
                     </div>
                 </div>
@@ -78,7 +78,7 @@
             <div class="container mx-auto p-4 md:p-8 max-w-4xl">
                 <header class="text-center mb-6 pt-2">
                     <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Jadwal Ujian</h1>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Kelas TRPL-2A · TA. 2025/2026</p>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Kelas TRPL-3A · TA. 2025/2026</p>
                 </header>
 
                 <!-- Tabs -->
@@ -110,7 +110,7 @@
             <div class="container mx-auto p-4 md:p-8 max-w-4xl">
                 <header class="text-center mb-6 pt-2">
                     <h1 class="text-3xl md:text-4xl font-bold text-indigo-600 dark:text-indigo-400">Pembagian Ruangan</h1>
-                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Peserta Ujian Kelas TRPL-2A</p>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mt-2">Peserta Ujian Kelas TRPL-3A</p>
                 </header>
 
                 <!-- Search -->
@@ -130,7 +130,7 @@
         </section>
 
         <footer class="text-center py-8 text-sm text-gray-400 border-t border-gray-200 dark:border-gray-700">
-            <p>Portal Akademik Kelas TRPL-2A · Politeknik Negeri Medan</p>
+            <p>Portal Kelas TRPL-3A · Politeknik Negeri Medan</p>
         </footer>
     </div>
 
@@ -141,96 +141,96 @@
     // Kosongkan isi array [] untuk menampilkan pesan "belum tersedia"
     // ================================================================
     const jadwalUAS = [
-        {
-            hari: 'Selasa', tanggal: '09 Juni 2026', dateStr: '2026-06-09',
-            ujian: [
-                {
-                    waktu: '13.00 – 14.10', mataKuliah: 'Percakapan Bahasa Inggris II',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
-                    ]
-                },
-                {
-                    waktu: '14.20 – 15.30', mataKuliah: 'Aljabar Linear',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
-                    ]
-                },
-                {
-                    waktu: '15.40 – 16.50', mataKuliah: 'Pancasila',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Yuyun Yusnida Lase, S.Kom., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
-                    ]
-                }
-            ]
-        },
-        {
-            hari: 'Rabu', tanggal: '10 Juni 2026', dateStr: '2026-06-10',
-            ujian: [
-                {
-                    waktu: '13.00 – 14.10', mataKuliah: 'Etika dan Budaya Sumatera Utara',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
-                    ]
-                },
-                {
-                    waktu: '14.20 – 15.30', mataKuliah: 'Bahasa Indonesia',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
-                    ]
-                },
-                {
-                    waktu: '15.40 – 16.50', mataKuliah: 'Design Web',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Devanta Abraham Tarigan, S.Kom., M.Kom' }
-                    ]
-                }
-            ]
-        },
-        {
-            hari: 'Kamis', tanggal: '11 Juni 2026', dateStr: '2026-06-11',
-            ujian: [
-                {
-                    waktu: '13.00 – 14.10', mataKuliah: 'Struktur Data',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
-                    ]
-                },
-                {
-                    waktu: '14.20 – 15.30', mataKuliah: 'Praktik Struktur Data',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
-                    ]
-                },
-                {
-                    waktu: '15.40 – 16.50', mataKuliah: 'Pemrograman Berorientasi Objek I',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
-                    ]
-                }
-            ]
-        },
-        {
-            hari: 'Jumat', tanggal: '12 Juni 2026', dateStr: '2026-06-12',
-            ujian: [
-                {
-                    waktu: '14.20 – 15.30', mataKuliah: 'Praktik Pemrograman Berorientasi Objek I',
-                    ruangan: [
-                        { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Santi Prayudani, S.Kom., M.Kom' },
-                        { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Virdyra Tasril, S.Kom., M.Kom' }
-                    ]
-                }
-            ]
-        }
+        // {
+        //     hari: 'Selasa', tanggal: '09 Juni 2026', dateStr: '2026-06-09',
+        //     ujian: [
+        //         {
+        //             waktu: '13.00 – 14.10', mataKuliah: 'Percakapan Bahasa Inggris II',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '14.20 – 15.30', mataKuliah: 'Aljabar Linear',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Sharfina Faza, S.Kom., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '15.40 – 16.50', mataKuliah: 'Pancasila',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Yuyun Yusnida Lase, S.Kom., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Ismael, S.Kom., M.Kom' }
+        //             ]
+        //         }
+        //     ]
+        // },
+        // {
+        //     hari: 'Rabu', tanggal: '10 Juni 2026', dateStr: '2026-06-10',
+        //     ujian: [
+        //         {
+        //             waktu: '13.00 – 14.10', mataKuliah: 'Etika dan Budaya Sumatera Utara',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '14.20 – 15.30', mataKuliah: 'Bahasa Indonesia',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Lamtiur Sinambela, S.Si., M.Si' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '15.40 – 16.50', mataKuliah: 'Design Web',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Winda Syafitri, S.Pd., M.Pd' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Devanta Abraham Tarigan, S.Kom., M.Kom' }
+        //             ]
+        //         }
+        //     ]
+        // },
+        // {
+        //     hari: 'Kamis', tanggal: '11 Juni 2026', dateStr: '2026-06-11',
+        //     ujian: [
+        //         {
+        //             waktu: '13.00 – 14.10', mataKuliah: 'Struktur Data',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '14.20 – 15.30', mataKuliah: 'Praktik Struktur Data',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+        //             ]
+        //         },
+        //         {
+        //             waktu: '15.40 – 16.50', mataKuliah: 'Pemrograman Berorientasi Objek I',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Cut Try Utari, S.T., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Arif Hamied Nababan, S.Kom., M.TI' }
+        //             ]
+        //         }
+        //     ]
+        // },
+        // {
+        //     hari: 'Jumat', tanggal: '12 Juni 2026', dateStr: '2026-06-12',
+        //     ujian: [
+        //         {
+        //             waktu: '14.20 – 15.30', mataKuliah: 'Praktik Pemrograman Berorientasi Objek I',
+        //             ruangan: [
+        //                 { label: 'Ruangan 1', ruang: 'N-109', pengawas: 'Santi Prayudani, S.Kom., M.Kom' },
+        //                 { label: 'Ruangan 2', ruang: 'N-309', pengawas: 'Virdyra Tasril, S.Kom., M.Kom' }
+        //             ]
+        //         }
+        //     ]
+        // }
     ];
 
     // ================================================================
@@ -289,9 +289,8 @@
                 { no:  8, nama: 'RAFQAH THALITA HASYIM NASUTION', nim: '2505181041' },
                 { no:  9, nama: 'RAHEL JULIANTI BR SIAGIAN',      nim: '2505181091' },
                 { no: 10, nama: 'SAMUEL CHRISTIAN LUMBANTOBING',  nim: '2505181066' },
-                { no: 11, nama: 'SYAMIL IKHWAN FADLI',            nim: '2505181126' },
-                { no: 12, nama: 'VINCENT ROBIN CHRISTAN ZEBUA',   nim: '2505181051' },
-                { no: 13, nama: 'ZALFA NAZIFAH PURBA',            nim: '2505181076' }
+                { no: 11, nama: 'VINCENT ROBIN CHRISTAN ZEBUA',   nim: '2505181051' },
+                { no: 12, nama: 'ZALFA NAZIFAH PURBA',            nim: '2505181076' }
             ]
         }
     ];
@@ -443,7 +442,7 @@
                             ${group.label} — Ruang ${group.ruang}
                         </h2>
                         <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            ${q ? `${matched.length} dari ${group.siswa.length}` : group.siswa.length} mahasiswa TRPL-2A
+                            ${q ? `${matched.length} dari ${group.siswa.length}` : group.siswa.length} mahasiswa TRPL-3A
                         </p>
                     </div>
                     <span class="text-3xl font-black text-indigo-100 dark:text-indigo-900 select-none">${group.ruang}</span>
