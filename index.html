@@ -105,6 +105,7 @@
         'SRF': 'Sharfina Faza',
         'LAM': 'Lamtiur Sinambela'
     };
+    const waliKelas = '-';
 
     // Kosongkan isi array [] atau komentari data di dalamnya untuk menampilkan pesan belum update.
     const jadwal = [
@@ -211,29 +212,73 @@
             (acc[cur.hari] = acc[cur.hari] || []).push(cur); return acc;
         }, {});
         const dayOrder = ['Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu'];
+
+        schedContainer.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Total Mata Kuliah</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">${jadwalKuliahData.length}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Wali Kelas</p>
+                    <p class="mt-1 text-xl md:text-2xl font-black text-indigo-600 dark:text-indigo-300">${waliKelas}</p>
+                </div>
+            </div>
+        `;
+
         Object.keys(grouped)
             .sort((a,b) => dayOrder.indexOf(a) - dayOrder.indexOf(b))
             .forEach(hari => {
+                const items = grouped[hari];
                 const card = document.createElement('div');
-                card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden';
+                card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700';
                 card.innerHTML = `
-                    <div class="bg-indigo-50 dark:bg-gray-700 p-4 border-b border-gray-200 dark:border-gray-600">
-                        <h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">${hari}</h2>
+                    <div class="bg-indigo-50/80 dark:bg-gray-700/70 p-4 border-b border-gray-200 dark:border-gray-600 flex items-center justify-between gap-3">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm dark:bg-gray-800 dark:text-indigo-300">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3M16 7V3M4 11h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">${hari}</h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${items.length} sesi kuliah</p>
+                            </div>
+                        </div>
+                        <span class="rounded-full bg-white px-3 py-1 text-xs font-semibold text-indigo-700 ring-1 ring-indigo-100 dark:bg-gray-800 dark:text-indigo-200 dark:ring-gray-600">
+                            ${items[0].ruang}
+                        </span>
                     </div>
                     <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-                        ${grouped[hari].map(item => `
-                            <li class="p-4 flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
-                                <div class="flex-grow">
-                                    <p class="font-bold text-lg">${item.mataKuliah}</p>
-                                    <p class="text-sm text-gray-600 dark:text-gray-400">
-                                        <span class="font-semibold">${item.waktuMulai} – ${item.waktuSelesai}</span>
-                                        &nbsp;·&nbsp;${dosen[item.kodeDosen]}&nbsp;·&nbsp;Ruang ${item.ruang}
-                                    </p>
+                        ${items.map(item => `
+                            <li class="p-4 md:p-5">
+                                <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                                    <div class="flex gap-4">
+                                        <div class="w-24 flex-shrink-0 rounded-lg bg-gray-50 px-3 py-2 text-center ring-1 ring-gray-200 dark:bg-gray-700/50 dark:ring-gray-600">
+                                            <p class="text-sm font-black text-gray-800 dark:text-gray-100">${item.waktuMulai}</p>
+                                            <p class="text-xs text-gray-400 dark:text-gray-500">sampai</p>
+                                            <p class="text-sm font-black text-gray-800 dark:text-gray-100">${item.waktuSelesai}</p>
+                                        </div>
+                                        <div class="min-w-0">
+                                            <p class="text-base md:text-lg font-bold text-gray-900 dark:text-gray-100">${item.mataKuliah}</p>
+                                            <div class="mt-2 flex flex-wrap gap-2 text-xs">
+                                                <span class="inline-flex items-center rounded-full bg-indigo-50 px-2.5 py-1 font-semibold text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
+                                                    ${dosen[item.kodeDosen] || item.kodeDosen}
+                                                </span>
+                                                <span class="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-1 font-semibold text-gray-600 dark:bg-gray-700 dark:text-gray-300">
+                                                    Ruang ${item.ruang}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="${createCalendarLink(item)}" target="_blank" rel="noopener noreferrer"
+                                       class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-bold text-white transition hover:bg-indigo-700 active:bg-indigo-800 md:w-auto">
+                                        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v14M5 12h14"/>
+                                        </svg>
+                                        Google Calendar
+                                    </a>
                                 </div>
-                                <a href="${createCalendarLink(item)}" target="_blank" rel="noopener noreferrer"
-                                   class="w-full md:w-auto flex-shrink-0 bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 text-white text-sm font-bold py-2 px-4 rounded-lg transition text-center">
-                                    + Google Calendar
-                                </a>
                             </li>
                         `).join('')}
                     </ul>

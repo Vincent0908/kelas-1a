@@ -122,7 +122,7 @@
                     </span>
                     <input type="text" id="search-input"
                         placeholder="Cari nama atau NIM..."
-                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                        class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
                 </div>
 
                 <div id="ruangan-container" class="space-y-6"></div>
@@ -381,42 +381,97 @@
             return;
         }
 
+        const totalUjian = data.reduce((total, day) => total + day.ujian.length, 0);
+        container.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Periode</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">${label}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Total Ujian</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">${totalUjian}</p>
+                </div>
+            </div>
+        `;
+
         // Array berisi data → render kartu jadwal
         data.forEach(day => {
             const isToday = day.dateStr === todayStr;
             const isPast  = day.dateStr < todayStr;
 
             const cardBorder  = isToday ? 'ring-2 ring-orange-400' : '';
-            const headerBg    = isToday ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-indigo-50 dark:bg-gray-700';
+            const headerBg    = isToday ? 'bg-orange-50 dark:bg-orange-900/20' : 'bg-indigo-50/80 dark:bg-gray-700/70';
             const headerColor = isToday ? 'text-orange-700 dark:text-orange-300' : 'text-indigo-700 dark:text-indigo-300';
             const cardOpacity = isPast  ? 'opacity-60' : '';
-            const todayBadge  = isToday
-                ? '<span class="ml-2 px-2 py-0.5 bg-orange-500 text-white text-xs font-bold rounded-full align-middle">HARI INI</span>'
-                : (isPast ? '<span class="ml-2 px-2 py-0.5 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 text-xs font-medium rounded-full align-middle">Selesai</span>' : '');
+            const statusLabel = isToday ? 'Hari ini' : (isPast ? 'Selesai' : 'Mendatang');
+            const statusClass = isToday
+                ? 'bg-orange-500 text-white'
+                : (isPast ? 'bg-gray-200 text-gray-600 dark:bg-gray-700 dark:text-gray-300' : 'bg-emerald-50 text-emerald-700 ring-1 ring-emerald-200 dark:bg-emerald-400/10 dark:text-emerald-200 dark:ring-emerald-300/20');
 
             const card = document.createElement('div');
-            card.className = `bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden ${cardBorder} ${cardOpacity}`;
+            card.className = `bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700 ${cardBorder} ${cardOpacity}`;
 
             card.innerHTML = `
                 <div class="${headerBg} p-4 border-b border-gray-200 dark:border-gray-600">
-                    <h2 class="text-xl font-bold ${headerColor}">
-                        ${day.hari}, ${day.tanggal}${todayBadge}
-                    </h2>
-                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">${day.ujian.length} mata kuliah</p>
+                    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm dark:bg-gray-800 dark:text-indigo-300">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M8 7V3M16 7V3M4 11h16M6 5h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-gray-500 dark:text-gray-400">Jadwal ${label}</p>
+                                <h2 class="text-xl font-bold ${headerColor}">${day.hari}, ${day.tanggal}</h2>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">${day.ujian.length} mata kuliah</p>
+                            </div>
+                        </div>
+                        <span class="inline-flex w-fit items-center rounded-full px-3 py-1 text-xs font-bold ${statusClass}">
+                            ${statusLabel}
+                        </span>
+                    </div>
                 </div>
                 <div class="divide-y divide-gray-200 dark:divide-gray-700">
                     ${day.ujian.map(u => `
                         <div class="p-4 md:p-5">
-                            <p class="font-bold text-base mb-0.5">${u.mataKuliah}</p>
-                            <p class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-3">${u.waktu} WIB</p>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                                ${u.ruangan.map(r => `
-                                    <div class="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3 border border-gray-200 dark:border-gray-600">
-                                        <p class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-1">${r.label}</p>
-                                        <p class="text-2xl font-black text-indigo-700 dark:text-indigo-300 leading-none">Ruang ${r.ruang}</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1.5">Pengawas: ${r.pengawas}</p>
+                            <div class="flex flex-col gap-4 md:flex-row md:items-start">
+                                <div class="w-full rounded-lg bg-gray-50 p-3 ring-1 ring-gray-200 dark:bg-gray-700/50 dark:ring-gray-600 md:w-36 md:flex-shrink-0">
+                                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Waktu Ujian</p>
+                                    <div class="mt-2 grid grid-cols-2 gap-2 md:grid-cols-1">
+                                        ${(() => {
+                                            const [mulai, selesai] = u.waktu.split(/\s*[–-]\s*/);
+                                            return `
+                                                <div>
+                                                    <p class="text-xs text-gray-400 dark:text-gray-500">Mulai</p>
+                                                    <p class="text-base font-black leading-tight text-gray-900 dark:text-gray-100">${mulai}</p>
+                                                </div>
+                                                <div>
+                                                    <p class="text-xs text-gray-400 dark:text-gray-500">Selesai</p>
+                                                    <p class="text-base font-black leading-tight text-gray-900 dark:text-gray-100">${selesai || '-'}</p>
+                                                </div>
+                                            `;
+                                        })()}
                                     </div>
-                                `).join('')}
+                                    <p class="mt-2 text-xs font-semibold text-indigo-600 dark:text-indigo-300">WIB</p>
+                                </div>
+                                <div class="min-w-0 flex-1">
+                                    <p class="text-base md:text-lg font-bold text-gray-900 dark:text-gray-100">${u.mataKuliah}</p>
+                                    <div class="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                        ${u.ruangan.map(r => `
+                                            <div class="rounded-lg border border-gray-200 bg-gray-50 p-3 dark:border-gray-600 dark:bg-gray-700/50">
+                                                <div class="flex items-start justify-between gap-3">
+                                                    <div>
+                                                        <p class="text-xs font-semibold text-gray-400 dark:text-gray-500">${r.label}</p>
+                                                        <p class="mt-1 text-2xl font-black leading-none text-indigo-700 dark:text-indigo-300">Ruang ${r.ruang}</p>
+                                                    </div>
+                                                    <span class="rounded-full bg-white px-2 py-1 text-xs font-bold text-indigo-700 ring-1 ring-indigo-100 dark:bg-gray-800 dark:text-indigo-200 dark:ring-gray-600">${r.ruang}</span>
+                                                </div>
+                                                <p class="mt-3 text-xs leading-5 text-gray-500 dark:text-gray-400">Pengawas: ${r.pengawas}</p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     `).join('')}
@@ -465,6 +520,25 @@
         `;
     }
 
+    function escapeHTML(value) {
+        return String(value).replace(/[&<>"']/g, char => ({
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        }[char]));
+    }
+
+    function getInitials(name) {
+        return name
+            .trim()
+            .split(/\s+/)
+            .slice(0, 2)
+            .map(word => word[0])
+            .join('');
+    }
+
     function renderRuangan(query = '') {
         if (!Array.isArray(pembagianRuanganData) || pembagianRuanganData.length === 0) {
             renderEmptyRuangan();
@@ -472,49 +546,101 @@
         }
 
         searchWrapper.classList.remove('hidden');
-        ruanganContainer.innerHTML = '';
         const q = query.toLowerCase().trim();
-        let totalFound = 0;
+        const totalStudents = pembagianRuanganData.reduce((total, group) => total + group.siswa.length, 0);
+        const filteredGroups = pembagianRuanganData
+            .map(group => {
+                const matched = q
+                    ? group.siswa.filter(s => s.nama.toLowerCase().includes(q) || s.nim.includes(q))
+                    : group.siswa;
+                return { ...group, matched };
+            })
+            .filter(group => !q || group.matched.length > 0);
+        const totalFound = filteredGroups.reduce((total, group) => total + group.matched.length, 0);
 
-        pembagianRuanganData.forEach(group => {
-            const matched = q
-                ? group.siswa.filter(s => s.nama.toLowerCase().includes(q) || s.nim.includes(q))
-                : group.siswa;
-
-            if (q && matched.length === 0) return;
-            totalFound += matched.length;
-
-            const card = document.createElement('div');
-            card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden';
-
-            card.innerHTML = `
-                <div class="bg-indigo-50 dark:bg-gray-700 p-4 border-b border-gray-200 dark:border-gray-600 flex items-center justify-between">
-                    <div>
-                        <h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">
-                            ${group.label} — Ruang ${group.ruang}
-                        </h2>
-                        <p class="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
-                            ${q ? `${matched.length} dari ${group.siswa.length}` : group.siswa.length} mahasiswa TRPL-3A
+        if (q && totalFound === 0) {
+            ruanganContainer.innerHTML = `
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden border border-gray-200 dark:border-gray-700">
+                    <div class="p-6 md:p-8 text-center">
+                        <div class="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-300">
+                            <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21 21l-6-6m2-5a7 7 0 1 1-14 0 7 7 0 0 1 14 0z"/>
+                            </svg>
+                        </div>
+                        <span class="inline-flex items-center rounded-full bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-700 ring-1 ring-amber-200 dark:bg-amber-400/10 dark:text-amber-200 dark:ring-amber-300/20">
+                            Tidak ditemukan
+                        </span>
+                        <h2 class="mt-4 text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100">Tidak ada hasil untuk "${escapeHTML(query)}".</h2>
+                        <p class="mx-auto mt-2 max-w-md text-sm leading-6 text-gray-500 dark:text-gray-400">
+                            Pastikan nama atau NIM yang dicari sudah benar.
                         </p>
                     </div>
-                    <span class="text-3xl font-black text-indigo-100 dark:text-indigo-900 select-none">${group.ruang}</span>
+                </div>
+            `;
+            return;
+        }
+
+        ruanganContainer.innerHTML = `
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">${q ? 'Hasil Pencarian' : 'Total Peserta'}</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">${q ? totalFound : totalStudents}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Ruangan Aktif</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">${filteredGroups.length}</p>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-sm">
+                    <p class="text-xs font-semibold uppercase text-gray-400 dark:text-gray-500">Kelas</p>
+                    <p class="mt-1 text-2xl font-black text-indigo-600 dark:text-indigo-300">TRPL-3A</p>
+                </div>
+            </div>
+        `;
+
+        filteredGroups.forEach(group => {
+            const card = document.createElement('div');
+            card.className = 'bg-white dark:bg-gray-800 rounded-xl shadow-sm overflow-hidden border border-gray-200 dark:border-gray-700';
+
+            card.innerHTML = `
+                <div class="bg-indigo-50/80 dark:bg-gray-700/70 p-4 border-b border-gray-200 dark:border-gray-600 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-indigo-600 shadow-sm dark:bg-gray-800 dark:text-indigo-300">
+                            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 21h18M5 21V7l8-4v18M19 21V11l-6-3M9 9h.01M9 13h.01M9 17h.01M13 17h.01M17 17h.01"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-xl font-bold text-indigo-700 dark:text-indigo-300">${group.label}</h2>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">
+                                ${q ? `${group.matched.length} dari ${group.siswa.length}` : group.siswa.length} mahasiswa TRPL-3A
+                            </p>
+                        </div>
+                    </div>
+                    <span class="rounded-full bg-white px-3 py-1 text-sm font-black text-indigo-700 ring-1 ring-indigo-100 dark:bg-gray-800 dark:text-indigo-200 dark:ring-gray-600">${group.ruang}</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-sm">
                         <thead>
-                            <tr class="bg-gray-50 dark:bg-gray-700/40 text-left text-xs uppercase tracking-wide">
-                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-12">No.</th>
-                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Nama</th>
+                            <tr class="bg-gray-50 dark:bg-gray-700/40 text-left text-xs uppercase">
+                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400 w-16">No.</th>
+                                <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">Mahasiswa</th>
                                 <th class="px-4 py-3 font-semibold text-gray-500 dark:text-gray-400">NIM</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
-                            ${matched.map(s => {
-                                const hl = q ? 'bg-yellow-50 dark:bg-yellow-900/10' : '';
+                            ${group.matched.map(s => {
+                                const hl = q ? 'bg-indigo-50/50 dark:bg-indigo-500/5' : '';
                                 return `
                                     <tr class="hover:bg-gray-50 dark:hover:bg-gray-700/30 transition ${hl}">
                                         <td class="px-4 py-3 text-gray-400 font-mono text-xs">${s.no}</td>
-                                        <td class="px-4 py-3 font-medium">${s.nama}</td>
+                                        <td class="px-4 py-3">
+                                            <div class="flex items-center gap-3">
+                                                <div class="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-indigo-50 text-xs font-black text-indigo-700 dark:bg-indigo-500/10 dark:text-indigo-200">
+                                                    ${getInitials(s.nama)}
+                                                </div>
+                                                <span class="font-semibold text-gray-800 dark:text-gray-100">${s.nama}</span>
+                                            </div>
+                                        </td>
                                         <td class="px-4 py-3 text-gray-500 dark:text-gray-400 font-mono text-xs">${s.nim}</td>
                                     </tr>
                                 `;
@@ -525,16 +651,6 @@
             `;
             ruanganContainer.appendChild(card);
         });
-
-        if (q && totalFound === 0) {
-            ruanganContainer.innerHTML = `
-                <div class="text-center py-16 bg-white dark:bg-gray-800 rounded-xl shadow-md">
-                    <div class="text-5xl mb-3">🔍</div>
-                    <p class="text-gray-600 dark:text-gray-300 font-medium">Tidak ditemukan hasil untuk "<strong>${query}</strong>"</p>
-                    <p class="text-sm text-gray-400 mt-1">Pastikan nama atau NIM sudah benar.</p>
-                </div>
-            `;
-        }
     }
 
     renderRuangan();
